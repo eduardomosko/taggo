@@ -48,7 +48,6 @@ type ShapeDiscriminator struct {
 	Shape string `json:"shape"`
 }
 
-
 func (sd *ShapeDiscriminator) GetType() (any, error) {
 	switch sd.Shape {
 	case "square":
@@ -65,13 +64,12 @@ If you wish, you can also return another interface that is not `any`:
 
 ```go
 type Shape interface {
-    Area() float64
+	Area() float64
 }
 
 type ShapeDiscriminator struct {
 	Shape string `json:"shape"`
 }
-
 
 func (sd *ShapeDiscriminator) GetType() (Shape, error) {
 	switch sd.Shape {
@@ -97,7 +95,7 @@ var shapeUnion ShapeUnion
 
 err := json.Unmarshal(bytes, &shapeUnion)
 if err != nil {
-    return err
+	return err
 }
 
 shape := shapeUnion.Value // Either Circle or Square
@@ -119,7 +117,6 @@ import (
 	"github.com/eduardomosko/taggo"
 )
 
-
 type Circle struct {
 	Radius float64 `json:"radius"`
 }
@@ -127,7 +124,6 @@ type Circle struct {
 func (c *Circle) Area() float64 {
 	return math.Pi * c.Radius * c.Radius
 }
-
 
 type Square struct {
 	Side float64 `json:"side"`
@@ -137,12 +133,10 @@ func (s *Square) Area() float64 {
 	return s.Side * s.Side
 }
 
-
 // Shape represents a 2D shape
 type Shape interface {
-    Area() float64
+	Area() float64
 }
-
 
 // ShapeDiscriminator tells the shapes apart
 type ShapeDiscriminator struct {
@@ -159,10 +153,8 @@ func (sd *ShapeDiscriminator) GetType() (Shape, error) {
 	return nil, errors.New("unknown shape")
 }
 
-
 // ShapeUnion parses a Shape by it's tag
 type ShapeUnion = taggo.Discriminated[Shape, *ShapeDiscriminator]
-
 
 func main() {
 	inputSquare := []byte(`{"shape":"square","side":10}`)
